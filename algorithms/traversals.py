@@ -60,6 +60,36 @@ def postorder_traversal(root, lvl=0):
     return vals
 
 
+def dfs(root, lvl=0):
+    """
+    Depth first search algorithm
+    """
+    vals = []
+    if root:
+        vals.append([root.data, lvl])
+        if root.left:
+            vals += dfs(root.left, lvl + 1)
+        if root.right:
+            vals += dfs(root.right, lvl + 1)
+    return vals
+
+
+def bfs(root):
+    """
+    Breadth first search algorithm
+    """
+    lvl = 0
+    vals = [[root.data, lvl]]
+    roots = [root]
+    while roots:
+        roots = ([r.right for r in roots if r.right] +
+                 [r.left for r in roots if r.left])
+        lvl += 1
+        for r in roots:
+            vals.append([r.data, lvl])
+    return vals
+
+
 if __name__ == '__main__':
     # create Binary Tree
     root = Node(27)
@@ -69,7 +99,10 @@ if __name__ == '__main__':
     root.insert(19)
     root.insert(31)
     root.insert(42)
+    root.insert(1)
 
     print(inorder_traversal(root))
     print(preorder_traversal(root))
     print(postorder_traversal(root))
+    print(dfs(root))
+    print(bfs(root))
